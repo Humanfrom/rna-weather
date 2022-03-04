@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "rna-weather",
+    "slug": "rna-weather",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "rna-weather"
+}
