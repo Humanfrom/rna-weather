@@ -9,7 +9,10 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/dev": "^0.2.2",
+    "@expo-google-fonts/lato": "^0.2.2",
     "expo": "~44.0.2",
+    "expo-font": "~10.0.4",
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
     "react": "17.0.1",
@@ -22,6 +25,8 @@
   },
   "private": true,
   "rnpm": {
-  "assets": ["./assets/fonts"]
+    "assets": [
+      "./assets/fonts"
+    ]
   }
 }

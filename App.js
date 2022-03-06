@@ -1,26 +1,40 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, Switch, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Switch, Image, Platform} from 'react-native';
+import { useFonts, Lato_400Regular} from "@expo-google-fonts/lato";
+
+//custom components
 import CitiesList from './components/CitiesList.js'
 import CustomTouchableHL from './components/CustomTouchableHL.js'
 import FooterElement from './components/FooterElement.js'
+import TemperatureElement from './components/TemperatureElement.js'
+import CustomSwitch from './components/CustomSwitch.js'
 
+//app
 export default function App() {
 
 const apiKey = '4ae0533e8b20642f34a93d1c3373089b'
 
+//hooks
+const [celsius,setMetric] = useState(false);
 const [weather, setWeather] = useState({
   city:"Москва",
-  tempr:"0",
-  wind:"5",
-  pressure:"755",
+  tempr:"-3",
+  main: 'Rain',
+  wind:4.46,
+  pressure:765,
+  description: 'ясно',
   coord:{'lat':55,'lon':37},
-  humidity:20,
-  rain:50,
+  humidity: 69,
+  rain:99,
 });
 
+//get Google fonts
+let [fontsLoaded] = useFonts({Lato_400Regular});
+
+//get data with API
 const getWeather = (coord) => {
-  const {lat, lon} = coord ? coord : {'lat':55.761665,'lon':37.606667}
+  const {lat, lon} = coord ? coord : {'lat':51.666389,'lon':39.169998}
   fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&lang=ru`)
     .then((resp) => resp.json())
     .then((data) => {
@@ -34,6 +48,7 @@ const getWeather = (coord) => {
           humidity:data.main.humidity,
           rain:data.clouds.all,
         })
+        console
     })
     .catch((e) => {
 
@@ -41,31 +56,64 @@ const getWeather = (coord) => {
     });
 }
 
-const getGeoposition = () => {}
+//getWeather()
+//
+const styles = StyleSheet.create({
+  headText: {
+    height: 36,
+    fontFamily: 'Lato',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: 30,
+    lineHeight: 36,
+    color: '#fff',
+    paddingLeft: 10
+  },
+  select: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+}
+);
+
+const currentStyles = StyleSheet.create({
+content: {
+  fontFamily: 'Lato',
+  flex: 1,
+  justifyContent: 'space-between',
+  backgroundColor: (weather.main === 'Clear') ? '#498CEC' : '#7290B9',
+  padding: Platform.OS === 'android' ? 20 : 70
+}})
+
+const onSelectSwitch = index => {
+   console.log('Selected index: ' + index);
+ };
 
 return (
-    <View style={styles.content}>
+    <View style={currentStyles.content}>
       <View>
         <Text style={styles.headText}>{weather.city}</Text>
         <View style={styles.select}>
-        <View style={styles.highlights}>
+        <View style={{flexDirection: 'row', opacity:0.6}}>
           <CustomTouchableHL title={'Сменить город'} onPress={() => {}}/>
           <CustomTouchableHL title={'Моё местоположение'} onPress={() => {}} icon={'location'}/>
-          </View>
-          <Switch
-          trackColor={{ false: "#767577", true: "#81b0ff" }}
-        // thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-         ios_backgroundColor="#3e3e3e"
-         //onValueChange={toggleSwitch}
-        // value={isEnabled}
-        />
+        </View>
+          <CustomSwitch
+        selectionMode={2}
+        roundCorner={false}
+        option1={'Option1'}
+        option2={'Option2'}
+        onSelectSwitch={onSelectSwitch}
+        selectionColor={'red'}
+      />
        </View>
       </View>
 
-      <View style={styles.tempr}>
-        <Image style={styles.iconTempr} source={require(`./assets/img/sun.png`)}/>
-        <Text style={styles.textTempr}>{weather.tempr}°</Text>
-      </View>
+      <TemperatureElement tempr={weather.tempr} icon={weather.main}/>
 
       <View style={styles.footer}>
         <FooterElement title={'Ветер'} value={weather.wind}/>
@@ -79,57 +127,3 @@ return (
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  content: {
-    fontFamily: 'Lato',
-    flex: 1,
-    justifyContent: 'space-between',
-    backgroundColor: '#498CEC',
-    padding: 50
-  },
-  headText: {
-    //positon: 'absolute',
-    height: 36,
-    //left: '5.07%',
-    //right: '74.93%',
-    //top: 'calc(50% - 36px/2 - 296.5px)',
-    fontFamily: 'Lato',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: 30,
-    lineHeight: 36,
-    color: '#fff',
-  },
-  select: {
-    flexDirection: 'row',
-    opacity: 0.6,
-    justifyContent: 'space-between'
-  },
-  highlights: {
-    flexDirection: 'row',
-  },
-  tempr: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  iconTempr: {
-    width: 200,
-    height: 200,
-  },
-  textTempr: {
-    marginTop: 5,
-    fontFamily: 'Lato',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: 170,
-    lineHeight: 170,
-    textAlign: 'center',
-    color: '#fff',
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-}
-);
