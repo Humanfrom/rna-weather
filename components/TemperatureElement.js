@@ -47,7 +47,7 @@ const TemperatureElement = ({tempr,icon}) =>  {
 
   return(
     <View style={styles.tempr}>
-      <Image style={styles.iconTempr} source={require(`../assets/img/cloud.png`)}/>
+      <Image style={styles.iconTempr} source={require('../assets/img/' + img + '.png')}/>
       <Text style={styles.textTempr}>{tempr}°</Text>
     </View>
   )

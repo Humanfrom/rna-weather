@@ -16,10 +16,10 @@ export default function App() {
 const apiKey = '4ae0533e8b20642f34a93d1c3373089b'
 
 //hooks
-const [celsius,setMetric] = useState(false);
+const [farenheit,setMetric] = useState(0);
 const [weather, setWeather] = useState({
   city:"Москва",
-  tempr:"-3",
+  tempr: 278,
   main: 'Rain',
   wind:4.46,
   pressure:765,
@@ -41,9 +41,9 @@ const getWeather = (coord) => {
         setWeather({
           city:data.name,
           description: data.weather[0].description,
-          tempr:Math.round(data.main.temp - 273.15),
+          tempr:data.main.temp,//Math.round(data.main.temp - 273.15),
           wind:data.wind.speed,
-          pressure:data.main.pressure,
+          pressure:Math.round(data.main.pressure * 0,75),
           coord:data.coord,
           humidity:data.main.humidity,
           rain:data.clouds.all,
@@ -56,7 +56,6 @@ const getWeather = (coord) => {
     });
 }
 
-//getWeather()
 //
 const styles = StyleSheet.create({
   headText: {
@@ -77,10 +76,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
-}
-);
-
-const currentStyles = StyleSheet.create({
 content: {
   fontFamily: 'Lato',
   flex: 1,
@@ -89,12 +84,8 @@ content: {
   padding: Platform.OS === 'android' ? 20 : 70
 }})
 
-const onSelectSwitch = index => {
-   console.log('Selected index: ' + index);
- };
-
 return (
-    <View style={currentStyles.content}>
+    <View style={styles.content}>
       <View>
         <Text style={styles.headText}>{weather.city}</Text>
         <View style={styles.select}>
@@ -102,18 +93,11 @@ return (
           <CustomTouchableHL title={'Сменить город'} onPress={() => {}}/>
           <CustomTouchableHL title={'Моё местоположение'} onPress={() => {}} icon={'location'}/>
         </View>
-          <CustomSwitch
-        selectionMode={2}
-        roundCorner={false}
-        option1={'Option1'}
-        option2={'Option2'}
-        onSelectSwitch={onSelectSwitch}
-        selectionColor={'red'}
-      />
+          <CustomSwitch selectionMode={false} onSelectSwitch={setMetric}/>
        </View>
       </View>
 
-      <TemperatureElement tempr={weather.tempr} icon={weather.main}/>
+      <TemperatureElement tempr={farenheit ? Math.round(1.8 * (weather.tempr - 273) + 32) : Math.round(weather.tempr - 273.15)} icon={weather.main}/>
 
       <View style={styles.footer}>
         <FooterElement title={'Ветер'} value={weather.wind}/>
@@ -123,7 +107,6 @@ return (
       </View>
 
       <StatusBar style="auto" />
-
     </View>
   );
 }
