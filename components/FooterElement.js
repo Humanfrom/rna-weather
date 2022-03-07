@@ -1,18 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { useFonts, Lato_400Regular} from "@expo-google-fonts/lato";
-
-
+import { StyleSheet, Text, View, Image, Platform} from 'react-native';
 
 const FooterElement = ({title,value}) =>  {
-
-    let [fontsLoaded] = useFonts({Lato_400Regular});
 
   const styles = StyleSheet.create({
     element: {
       flex:1,
       flexDirection: 'column',
       margin: 10,
+      width: '25%'
     },
     title: {
       opacity: 0.6,
@@ -22,11 +18,11 @@ const FooterElement = ({title,value}) =>  {
       color: '#fff',
     },
     value: {
-      marginTop: 5,
+      marginTop: Platform.OS === 'android' ? 0 : 5,
       fontFamily: 'Lato',
       fontStyle: 'normal',
       fontWeight: 'normal',
-      fontSize: 25,
+      fontSize: Platform.OS === 'android' ? 15 : 25,
       lineHeight: 30,
       color: '#fff',
     }

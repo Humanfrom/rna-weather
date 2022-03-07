@@ -1,27 +1,25 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { useFonts, Lato_400Regular} from "@expo-google-fonts/lato";
+import { StyleSheet, Text, View, Image, Platform } from 'react-native';
 
 const TemperatureElement = ({tempr,icon}) =>  {
 
-  let [fontsLoaded] = useFonts({Lato_400Regular});
-
-  let img = 'sun';
+  let img = require('../assets/img/sun.png');
 
   switch (icon) {
     case 'Clear':
-    img = 'sun'
+    img = require('../assets/img/sun.png')
     break;
     case 'Partly Cloudy':
-    img = 'partlyCloudy'
+    img = require('../assets/img/partlyCloudy.png')
     break;
     case 'Rain':
-    img = 'rain'
+    img = require('../assets/img/rain.png')
     break;
-    case 'Clouds':
-    img = 'storm'
+    case 'Thunderstorm':
+    img = require('../assets/img/strom.png')
     break;
-    img = 'cloud'
+    default:
+    img = require('../assets/img/cloud.png')
   }
 
   const styles = StyleSheet.create({
@@ -30,16 +28,16 @@ const TemperatureElement = ({tempr,icon}) =>  {
       justifyContent: 'center',
     },
     iconTempr: {
-      width: 200,
-      height: 200,
+      width: Platform.OS === 'android' ? 150 : 200,
+      height: Platform.OS === 'android' ? 150 : 200,
     },
     textTempr: {
       marginTop: 5,
       fontFamily: 'Lato',
       fontStyle: 'normal',
       fontWeight: 'normal',
-      fontSize: 170,
-      lineHeight: 170,
+      fontSize: Platform.OS === 'android' ? 120 : 170,
+      lineHeight: Platform.OS === 'android' ? 140 : 190,
       textAlign: 'center',
       color: '#fff',
     },
@@ -47,7 +45,7 @@ const TemperatureElement = ({tempr,icon}) =>  {
 
   return(
     <View style={styles.tempr}>
-      <Image style={styles.iconTempr} source={require('../assets/img/' + img + '.png')}/>
+      <Image style={styles.iconTempr} source={img}/>
       <Text style={styles.textTempr}>{tempr}°</Text>
     </View>
   )

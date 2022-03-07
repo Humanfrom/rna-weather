@@ -1,19 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import { useFonts, Lato_700Bold} from "@expo-google-fonts/lato";
 
-const CustomSwitch = ({
-  selectionMode,
-  onSelectSwitch
-}) => {
-  let [fontsLoaded] = useFonts({Lato_700Bold});
-
-  const [getSelectionMode, setSelectionMode] = useState(selectionMode);
-
-  const updatedSwitchData = val => {
-    setSelectionMode(val);
-    onSelectSwitch(val);
-  };
+const CustomSwitch = ({selectionMode, onSelectSwitch}) => {
 
   return (
     <View style={{
@@ -27,7 +15,7 @@ const CustomSwitch = ({
       marginRight: 5,
     }}>° </Text>
       <TouchableOpacity
-        onPress={() => updatedSwitchData(!getSelectionMode)}
+        onPress={() => onSelectSwitch(!selectionMode)}
         style={{
           height: 29,
           width: 77,
@@ -38,7 +26,6 @@ const CustomSwitch = ({
           justifyContent: 'center',
         }}>
         <View
-
           style={{
             flex: 1,
             borderTopLeftRadius: 6,
@@ -49,15 +36,15 @@ const CustomSwitch = ({
           <Text
             style={{
               fontFamily: 'Lato',
-              color: !getSelectionMode ? 'white' : "#ffffffa0",
+              color: !selectionMode ? 'white' : "#ffffffa0",
               textAlign: "center",
               height: 29,
               width: 38,
               fontSize: 18,
-              lineHeight: 22,
+              lineHeight: 25,
               borderTopLeftRadius: 6,
               borderBottomLeftRadius: 6,
-              backgroundColor: !getSelectionMode ? "#ffffffa0" : null,
+              backgroundColor: !selectionMode ? "#ffffffa0" : null,
             }}>
             C
           </Text>
@@ -73,15 +60,15 @@ const CustomSwitch = ({
           <Text
             style={{
               fontFamily: 'Lato',
-              color: getSelectionMode ? 'white' : "#ffffffa0",
+              color: selectionMode ? 'white' : "#ffffffa0",
               textAlign: "center",
               height: 29,
               width: 38,
               fontSize: 18,
-              lineHeight: 22,
+              lineHeight: 25,
               borderTopRightRadius: 6,
               borderBottomRightRadius: 6,
-              backgroundColor: getSelectionMode ? "#ffffffa0" : null,
+              backgroundColor: selectionMode ? "#ffffffa0" : null,
             }}>
             F
           </Text>
