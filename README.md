@@ -1,4 +1,4 @@
-# Test task for React Native
+# Weather app with React Native
 
 Weather test app worked with API: https://openweathermap.org/api  
 (Cities list:  "Москва", "Санкт Петербург","Воронеж","Томск","Омск","Уфа","Самара","Киев","Лондон","Париж","Берлин","Багдад")
